@@ -1,0 +1,4 @@
+include ':ledger-android-library', ':ledger-management-android-library'
+project(':ledger-android-library').projectDir = new File(settingsDir, '../ledger-android-library')
+project(':ledger-management-android-library').projectDir = new File(settingsDir, '../ledger-management-android-library')
+

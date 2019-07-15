@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nano X -->
+    <usb-device vendor-id="0x2c97" product-id="0x0004" />
+    <usb-device vendor-id="0x2c97" product-id="0x4011" />
+    <usb-device vendor-id="0x2c97" product-id="0x4015" />
+    <!-- Nano S -->
+    <usb-device vendor-id="0x2c97" product-id="0x0001" />
+    <usb-device vendor-id="0x2c97" product-id="0x1011" />
+    <usb-device vendor-id="0x2c97" product-id="0x1015" />
+</resources>
+

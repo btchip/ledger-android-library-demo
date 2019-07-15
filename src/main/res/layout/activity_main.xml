@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">    
+    <Button 
+	android:id="@+id/connectUSBButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"			
+	android:text="Connect USB"/>
+   </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/scanBLEButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	android:text="Scan BLE"/>
+    <Button
+        android:id="@+id/connectBLEButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	android:text="Connect BLE"/>
+    <Button
+        android:id="@+id/closeBLEButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close BLE connection"/>
+    </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/getDeviceVersionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Device Version"/>
+    <Button
+        android:id="@+id/getAppVersionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get App Version"/>
+   </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button 
+        android:id="@+id/ethGetAddressButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"                    
+	android:text="ETH Get Address"/>
+    <Button 
+        android:id="@+id/ethSignTX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"                    
+        android:text="ETH Sign TX"/>
+    <Button 
+        android:id="@+id/ethSignERC20TX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"                    
+	android:text="ETH Sign ERC20 TX"/>
+    </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/ethSignLongTX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ETH Sign Long TX"/>
+   </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/mgtGetApps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	android:text="List available apps"/>
+    <Button
+        android:id="@+id/mgtGetFirmware"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	android:text="List available firmware"/>
+    </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/mgtGenuineCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	android:text="Run Genuine Check"/>
+    <Button
+        android:id="@+id/mgtLifecycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manage app"/>
+   </LinearLayout>
+   <TextView
+	   android:id="@+id/logView"
+	   android:scrollbars="vertical"
+	   android:layout_width="fill_parent"
+	   android:layout_height="fill_parent"
+	   android:text=""/>
+</LinearLayout>
+

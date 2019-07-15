@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+	google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.2'
+    }
+}
+
+allprojects {
+  repositories {
+    google()
+    jcenter()
+  }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+   implementation project(':ledger-android-library')
+   implementation project(':ledger-management-android-library')
+   implementation 'com.squareup.okhttp3:logging-interceptor:3.12.2'
+}
+
+android {
+   compileSdkVersion 28
+
+   defaultConfig {
+    minSdkVersion 19
+    targetSdkVersion 28
+    versionCode 1
+    versionName "1.0"
+   }
+   signingConfigs {
+     release {
+       storeFile file(TEST_KEYSTORE_FILE)
+       storePassword TEST_KEYSTORE_PASSWORD
+       keyAlias TEST_KEYSTORE_KEY_ALIAS
+       keyPassword TEST_KEYSTORE_KEY_PASSWORD
+     }
+   }
+   buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+   }
+}
+
+
