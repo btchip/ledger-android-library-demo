@@ -80,6 +80,7 @@ public class MainActivity extends Activity
 		private Button connectBLEButton;
 		private Button closeBLEButton;
 		private Button getAppVersionButton;
+		private Button getWalletIDButton;
 		private Button getDeviceVersionButton;
 		private Button ethGetAddressButton;
 		private Button ethSignTX;
@@ -346,6 +347,7 @@ public class MainActivity extends Activity
         connectBLEButton = (Button)findViewById(R.id.connectBLEButton);
         closeBLEButton = (Button)findViewById(R.id.closeBLEButton);
         getAppVersionButton = (Button)findViewById(R.id.getAppVersionButton);
+        getWalletIDButton = (Button)findViewById(R.id.getWalletIDButton);
         getDeviceVersionButton = (Button)findViewById(R.id.getDeviceVersionButton);
         ethGetAddressButton = (Button)findViewById(R.id.ethGetAddressButton);
         ethSignTX = (Button)findViewById(R.id.ethSignTX);
@@ -467,6 +469,16 @@ public class MainActivity extends Activity
         			Tasks.get().getAppVersion(ledgerDevice, MainActivity.this).execute();
         		}
         });        
+        getWalletIDButton.setOnClickListener(new OnClickListener() {
+        		@Override
+        		public void onClick(View view) {        			
+        			if (ledgerDevice == null) {
+        				toast("No device connected");
+        				return;
+        			}
+        			Tasks.get().getWalletID(ledgerDevice, MainActivity.this).execute();
+        		}
+        });                
         getDeviceVersionButton.setOnClickListener(new OnClickListener() {
         		@Override
         		public void onClick(View view) {        			

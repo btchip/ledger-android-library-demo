@@ -46,7 +46,12 @@
         android:id="@+id/getAppVersionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get App Version"/>
+	android:text="Get App Version"/>
+    <Button
+        android:id="@+id/getWalletIDButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Wallet ID"/>
    </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
@@ -68,6 +73,16 @@
         android:layout_height="wrap_content"                    
 	android:text="ETH Sign ERC20 TX"/>
     </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button 
+        android:id="@+id/btcSignMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"                    
+        android:text="BTC Sign Message"/>
+  </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
     android:layout_width="fill_parent"

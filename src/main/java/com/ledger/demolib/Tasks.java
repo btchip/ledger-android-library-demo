@@ -174,6 +174,45 @@ public class Tasks {
 			}
 		}
 
+		/* Fetch the wallet ID */
+
+		class GetWalletID extends AsyncTask<Void, Void, byte[]> {
+
+			private LedgerDevice device;
+			private WeakReference<MainActivity> weakActivity;
+
+			public GetWalletID(LedgerDevice device, MainActivity activity) {
+				this.device = device;
+				this.weakActivity = new WeakReference<>(activity);
+			}
+
+			protected byte[] doInBackground(Void... params) {
+				byte[] walletID = null;
+				LedgerApplication application = new LedgerApplication(device);
+				try {
+					walletID = application.getWalletID();
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				return walletID;
+			}
+
+			protected void onPostExecute(byte[] walletID) {
+				MainActivity activity = weakActivity.get();
+				if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+					return;
+				}				
+				if (walletID != null) {
+					activity.toast("Got wallet ID");
+					activity.debug(Dump.dump(walletID));
+				}
+				else {
+					activity.toast("Error getting Wallet ID");
+				}
+			}
+		}
+
 		/* Fetch the device version */
 
 		class GetDeviceVersion extends AsyncTask<Void, Void, Dashboard.DeviceDetails> {
@@ -647,6 +686,10 @@ public class Tasks {
 
 		public GetAppVersion getAppVersion(LedgerDevice device, MainActivity activity) {
 			return new GetAppVersion(device, activity);
+		}
+
+		public GetWalletID getWalletID(LedgerDevice device, MainActivity activity) {
+			return new GetWalletID(device, activity);
 		}
 
 		public GetDeviceVersion getDeviceVersion(LedgerDevice device, MainActivity activity) {
