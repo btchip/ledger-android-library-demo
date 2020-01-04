@@ -81,7 +81,12 @@
         android:id="@+id/btcSignMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"                    
-        android:text="BTC Sign Message"/>
+	android:text="BTC Sign Message"/>
+    <Button
+        android:id="@+id/btcSignTX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BTC Sign TX"/>
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"

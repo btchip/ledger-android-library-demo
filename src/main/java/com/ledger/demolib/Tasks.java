@@ -2,6 +2,7 @@ package com.ledger.demolib;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Vector;
 
 import android.os.AsyncTask;
 import android.hardware.usb.UsbManager;
@@ -18,6 +19,8 @@ import com.ledger.lib.transport.LedgerDeviceUSB;
 import com.ledger.lib.transport.LedgerDeviceBLE;
 import com.ledger.lib.apps.LedgerApplication;
 import com.ledger.lib.apps.eth.Eth;
+import com.ledger.lib.apps.btc.Btc;
+import com.ledger.lib.apps.btc.BtcTransaction;
 import com.ledger.lib.apps.dashboard.Dashboard;
 import com.ledger.lib.apps.common.WalletAddress;
 import com.ledger.lib.apps.common.ECDSADeviceSignature;
@@ -52,6 +55,12 @@ public class Tasks {
 		// 1c9eb8502b3d19d6c4a936e5dd2cde3ec7d2437f79cea92d09b8bc6b9773f4223d34fc4b91b4b880d40f16ade62f2bd25a4906f1518867f0ba4d7bfa54e15732b19000		
 		private static final byte[] SAMPLE_ETH_ERC20_TX = Dump.hexToBin("f86d018504e3b2920082520894e41d2489571d322189246dafa5ebde1f4699f498872bd72a24874000b844a9059cbb000000000000000000000000e41d2489571d322189246dafa5ebde1f4699f49800000000000000000000000000000000000000000000000246ddf97976680000");
 		private static final String SAMPLE_ETH_ERC20_CONTRACT_ADDRESS = "0xe41d2489571d322189246dafa5ebde1f4699f498";
+
+		private static final byte[] SAMPLE_BTC_TX_P2PKH_1 = Dump.hexToBin("02000000000101bb759715dd46ac8c8d00c17c5312a4dca74ebd298b735f07a472873b142abb4e0100000000feffffff0200e1f505000000001976a914bc6004631250401c3454d0713f539315ea10214588acc4984c000100000017a9146b4132f56e81118d2e42681b91cb4748e67b0b0d870247304402204d8a34cb23bec0d235d84d3d5a4b80d4bab2b6f1bcb2c257c9143e6a0e93be250220282cc7232f7a727c6c38b4c0b2e360b9bc4283295d29b607a85d5f558beffe0e01210238ee75891d7d4644de3164bbee8c382a78bf469c689d33361ae0f006e276a39b00000000");
+		private static final byte[] SAMPLE_BTC_TX_P2PKH_2 = Dump.hexToBin("020000000001012b68364d5eb817a1ee6ed12332942dec40dd1b7b24fb54f000dba7bfab0c2fc500000000171600142866b1d53df139ab23311caf57a21b034f1965f4feffffff02e0221a1e0100000017a91460d1030c72fbcd8e96e0c9582aa518f67513823e8700c2eb0b000000001976a914bc6004631250401c3454d0713f539315ea10214588ac024730440220478031dbe0ac10693311fc83e907bf518a6226dc58d44f64cfa6bc52b0f0f53202200b65330dce2c606142d2c104e391e32b91668e54d0bd895ca2566fe021c196d0012102a1e834c7b6db596a113ebee7261170cc4d4e80db4a0e51bf862627e7b7150e9400000000");
+		private static final byte[] SAMPLE_BTC_TX_P2SH_P2WPKH = Dump.hexToBin("0200000000010129d2010aeff2de839e2718c52cf230114e772383e1b2a94b60a0dd00f231e81d00000000171600142866b1d53df139ab23311caf57a21b034f1965f4feffffff0200a3e1110000000017a914818b33fafe6a7f92caec0e989aaaa40507d8b3af87084224180100000017a914778c699e0e43b526727883bdae1fe201a58d66008702473044022035df7007b8521fa847b0bfcf0dd1a831d82076393bc21e955140b8c6fe030eeb02206e59e12a9aa886d6ccae2f7ce4ed1e293bb8835ad3b6c86596d0d8d1af23ff2a012102a1e834c7b6db596a113ebee7261170cc4d4e80db4a0e51bf862627e7b7150e9400000000");
+		private static final byte[] SAMPLE_BTC_TX_P2WPKH = Dump.hexToBin("02000000000101278d0297350e201061ac9ba6b8d77046d0d9de0a84a35cd77545ba856d6f3c9700000000171600142866b1d53df139ab23311caf57a21b034f1965f4feffffff0230612e12010000001600149f451f15ef55ab5ab7350d3178e4fd185706a5610084d71700000000160014bc6004631250401c3454d0713f539315ea1021450247304402202d050d3cabd4c8374e5cb1a5f010a6688e39323512f415a5679bb398e8f942500220386ebebf18ac9fddf8b380382b4dfd4935ed5064796e9fd6d0b6e7396faeef3d012102a1e834c7b6db596a113ebee7261170cc4d4e80db4a0e51bf862627e7b7150e9400000000");
+		private static final byte[] SAMPLE_BTC_TX_UNSIGNED = Dump.hexToBin("02000000046574ea263c98ff94f5a68007bc64d6a85f6a50e7257b5ad4c057f04ffd1ac2fd0000000000ffffffff3ba3ee374f7cf835827a8269c4da3241570e32fefa95ba2f5d795fdf2353dab10000000000ffffffffa3c51018e49c6a68af5d487c6327bdea259aeeb4d8a89535e62284308ec4f0e30100000000ffffffff6d81e45f2bd62ce183de7050f7c3434a1669a656a11457936dc9b65a4eb24d7f0100000000ffffffff01c0878b3b0000000017a914e929bf3837c2a0f42e9c57754cf27ca6f64c79488700000000");
 
 		private static final String PERSO_PROD = "perso_11";
 		private static final int API_VERSION = 17;
@@ -414,6 +423,65 @@ public class Tasks {
 			}
 		}
 
+		/* Sign a mixed Legacy/Segwit BTC transaction */
+
+		class BtcSignTX extends AsyncTask<Void, Void, byte[]> {
+
+			private LedgerDevice device;
+			private WeakReference<MainActivity> weakActivity;
+
+			public BtcSignTX(LedgerDevice device, MainActivity activity) {
+				this.device = device;
+				this.weakActivity = new WeakReference<>(activity);
+			}
+
+			protected byte[] doInBackground(Void... params) {
+				byte[] signedTX = null;
+				Btc application = new Btc(device);
+				try {
+					BtcTransaction sample_btc_tx_p2pkh_1 = new BtcTransaction(SAMPLE_BTC_TX_P2PKH_1);
+					BtcTransaction sample_btc_tx_p2pkh_2 = new BtcTransaction(SAMPLE_BTC_TX_P2PKH_2);
+					BtcTransaction sample_btc_tx_p2sh_p2wpkh = new BtcTransaction(SAMPLE_BTC_TX_P2SH_P2WPKH);
+					BtcTransaction sample_btc_tx_p2wpkh = new BtcTransaction(SAMPLE_BTC_TX_P2WPKH);
+					BtcTransaction sample_btc_tx_unsigned = new BtcTransaction(SAMPLE_BTC_TX_UNSIGNED);
+					Vector<BtcTransaction> parentTransactions = new Vector<BtcTransaction>();
+					parentTransactions.add(sample_btc_tx_p2pkh_1);
+					parentTransactions.add(sample_btc_tx_p2pkh_2);
+					parentTransactions.add(sample_btc_tx_p2sh_p2wpkh);
+					parentTransactions.add(sample_btc_tx_p2wpkh);
+					Vector<String> associatedKeysets = new Vector<String>();
+					associatedKeysets.add("44'/0'/0'/0/0");
+					associatedKeysets.add("44'/0'/0'/0/0");
+					associatedKeysets.add("44'/0'/0'/0/0");
+					associatedKeysets.add("44'/0'/0'/0/0");
+					LedgerApplication.ApplicationDetails applicationDetails = application.getApplicationDetails();
+					BtcTransaction signedTransaction = application.signP2PKHTransaction(sample_btc_tx_unsigned, parentTransactions, associatedKeysets, null);
+					if (signedTransaction != null) {
+						signedTX = signedTransaction.serialize(false, false);
+					}
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				return signedTX;
+			}
+
+			protected void onPostExecute(byte[] signedTX) {
+				MainActivity activity = weakActivity.get();
+				if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+					return;
+				}				
+				if (signedTX != null) {
+					activity.toast("TX signed");
+					activity.debug(Dump.dump(signedTX));
+				}
+				else {
+					activity.toast("Error signing transaction");
+				}
+			}
+		}
+
+
 		/* Get available applications from the Manager API */
 
 		class GetManagerApplications extends AsyncTask<Void, Void, ApplicationVersionList> {
@@ -710,6 +778,10 @@ public class Tasks {
 
 		public EthSignERC20 ethSignERC20(LedgerDevice device, MainActivity activity) {
 			return new EthSignERC20(device, activity);
+		}
+
+		public BtcSignTX btcSignTX(LedgerDevice device, MainActivity activity) {
+			return new BtcSignTX(device, activity);
 		}
 
 		public GetManagerApplications getManagerApplications(long provider, long targetId, String versionName, ManagerService managerService, MainActivity activity) {

@@ -86,6 +86,7 @@ public class MainActivity extends Activity
 		private Button ethSignTX;
 		private Button ethSignERC20TX;
 		private Button ethSignLongTX;		
+		private Button btcSignTX;
 		private Button mgtGetApps;
 		private Button mgtGetFirmware;
 		private Button mgtGenuineCheck;
@@ -353,6 +354,7 @@ public class MainActivity extends Activity
         ethSignTX = (Button)findViewById(R.id.ethSignTX);
         ethSignERC20TX = (Button)findViewById(R.id.ethSignERC20TX);
         ethSignLongTX = (Button)findViewById(R.id.ethSignLongTX);
+        btcSignTX = (Button)findViewById(R.id.btcSignTX);
         mgtGetApps = (Button)findViewById(R.id.mgtGetApps);
         mgtGetFirmware = (Button)findViewById(R.id.mgtGetFirmware);
         mgtGenuineCheck = (Button)findViewById(R.id.mgtGenuineCheck);
@@ -532,6 +534,16 @@ public class MainActivity extends Activity
         			Tasks.get().ethSignLong(ledgerDevice, MainActivity.this).execute();
         		}
         });                                
+        btcSignTX.setOnClickListener(new OnClickListener() {
+        		@Override
+        		public void onClick(View view) {        			
+        			if (ledgerDevice == null) {
+        				toast("No device connected");
+        				return;
+        			}
+        			Tasks.get().btcSignTX(ledgerDevice, MainActivity.this).execute();
+        		}
+        });                                
 
         mgtGetApps.setOnClickListener(new OnClickListener() {
         		@Override
@@ -540,7 +552,7 @@ public class MainActivity extends Activity
         				toast("No device connected");
         				return;
         			}        			
-        			Tasks.get().getManagerApplications(1, ledgerDevice, managerService, MainActivity.this).execute();
+        			Tasks.get().getManagerApplications(13, ledgerDevice, managerService, MainActivity.this).execute();
         			//Tasks.get().getManagerApplications(1, 0x31100004, "1.5.5", managerService, MainActivity.this).execute();
         		}
         });
@@ -552,7 +564,7 @@ public class MainActivity extends Activity
         				toast("No device connected");
         				return;
         			}        			
-        			Tasks.get().getManagerLatestFirmware(1, ledgerDevice, managerService, MainActivity.this).execute();
+        			Tasks.get().getManagerLatestFirmware(13, ledgerDevice, managerService, MainActivity.this).execute();
         			//Tasks.get().getManagerLatestFirmware(1, 0x31100003, "1.4.2", managerService, MainActivity.this).execute();
         			//Tasks.get().getManagerLatestFirmware(1, 0x31100004, "1.5.5", managerService, MainActivity.this).execute();
         		}
