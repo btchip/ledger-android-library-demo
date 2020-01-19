@@ -77,6 +77,11 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/btcGetAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BTC Get Address"/>
     <Button 
         android:id="@+id/btcSignMessage"
         android:layout_width="wrap_content"

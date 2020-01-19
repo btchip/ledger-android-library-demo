@@ -44,6 +44,8 @@ public class Tasks {
 
 		/* Sample BIP 32 path used for the address and given transactions */
 		private static final String SAMPLE_ETH_ADDRESS = "44'/60'/0'/0'/0";
+		/* Sample BIP 32 path used for the address and given transactions */
+		private static final String SAMPLE_BTC_ADDRESS = "44'/0'/0'/0/0";		
 		/* Simple ETH transaction without data */
 		// 0.01234 max fees 0.000441 to 0x28Ee52a8f3D6E5d15f8B131996950D7F296C7952
 		// 1b99d4b65691b71fca885bbce5a3647f0b7fe59672fb5aa79046ee26ba9872aecd470dc9e3bd38e439a3a30e451e6423f6b32746d0779aa996ac5e31be9e8a21119000
@@ -423,6 +425,47 @@ public class Tasks {
 			}
 		}
 
+		/* Get an Bitcoin address */
+
+		class BtcGetAddress extends AsyncTask<Void, Void, WalletAddress> {
+
+			private LedgerDevice device;
+			private WeakReference<MainActivity> weakActivity;
+
+			public BtcGetAddress(LedgerDevice device, MainActivity activity) {
+				this.device = device;
+				this.weakActivity = new WeakReference<>(activity);
+			}
+
+			protected WalletAddress doInBackground(Void... params) {
+				WalletAddress walletAddress = null;
+				Btc application = new Btc(device);
+				try {
+					LedgerApplication.ApplicationDetails applicationDetails = application.getApplicationDetails();
+					walletAddress = application.getWalletAddress(SAMPLE_BTC_ADDRESS, true, Btc.AddressFormat.BECH32);
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				return walletAddress;
+			}
+
+			protected void onPostExecute(WalletAddress walletAddress) {
+				MainActivity activity = weakActivity.get();
+				if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+					return;
+				}				
+				if (walletAddress != null) {
+					activity.toast(walletAddress.getAddress());
+					activity.debug(walletAddress.toString());
+				}
+				else {
+					activity.toast("Error getting wallet address");
+				}
+			}
+		}
+
+
 		/* Sign a mixed Legacy/Segwit BTC transaction */
 
 		class BtcSignTX extends AsyncTask<Void, Void, byte[]> {
@@ -778,6 +821,10 @@ public class Tasks {
 
 		public EthSignERC20 ethSignERC20(LedgerDevice device, MainActivity activity) {
 			return new EthSignERC20(device, activity);
+		}
+
+		public BtcGetAddress btcGetAddress(LedgerDevice device, MainActivity activity) {
+			return new BtcGetAddress(device, activity);
 		}
 
 		public BtcSignTX btcSignTX(LedgerDevice device, MainActivity activity) {
