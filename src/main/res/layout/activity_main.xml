@@ -103,6 +103,26 @@
         android:layout_height="wrap_content"
         android:text="ETH Sign Long TX"/>
    </LinearLayout>
+     <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/trxGetAddressButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRX Get Address"/>
+    <Button
+        android:id="@+id/trxSignTX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRX Sign TX"/>
+    <Button
+        android:id="@+id/trxSignInfoTX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRX Sign Info TX"/>
+    </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"
     android:layout_width="fill_parent"

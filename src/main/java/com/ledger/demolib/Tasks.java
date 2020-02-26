@@ -3,6 +3,7 @@ package com.ledger.demolib;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Vector;
+import java.util.Arrays;
 
 import android.os.AsyncTask;
 import android.hardware.usb.UsbManager;
@@ -21,6 +22,7 @@ import com.ledger.lib.apps.LedgerApplication;
 import com.ledger.lib.apps.eth.Eth;
 import com.ledger.lib.apps.btc.Btc;
 import com.ledger.lib.apps.btc.BtcTransaction;
+import com.ledger.lib.apps.trx.Trx;
 import com.ledger.lib.apps.dashboard.Dashboard;
 import com.ledger.lib.apps.common.WalletAddress;
 import com.ledger.lib.apps.common.ECDSADeviceSignature;
@@ -63,6 +65,13 @@ public class Tasks {
 		private static final byte[] SAMPLE_BTC_TX_P2SH_P2WPKH = Dump.hexToBin("0200000000010129d2010aeff2de839e2718c52cf230114e772383e1b2a94b60a0dd00f231e81d00000000171600142866b1d53df139ab23311caf57a21b034f1965f4feffffff0200a3e1110000000017a914818b33fafe6a7f92caec0e989aaaa40507d8b3af87084224180100000017a914778c699e0e43b526727883bdae1fe201a58d66008702473044022035df7007b8521fa847b0bfcf0dd1a831d82076393bc21e955140b8c6fe030eeb02206e59e12a9aa886d6ccae2f7ce4ed1e293bb8835ad3b6c86596d0d8d1af23ff2a012102a1e834c7b6db596a113ebee7261170cc4d4e80db4a0e51bf862627e7b7150e9400000000");
 		private static final byte[] SAMPLE_BTC_TX_P2WPKH = Dump.hexToBin("02000000000101278d0297350e201061ac9ba6b8d77046d0d9de0a84a35cd77545ba856d6f3c9700000000171600142866b1d53df139ab23311caf57a21b034f1965f4feffffff0230612e12010000001600149f451f15ef55ab5ab7350d3178e4fd185706a5610084d71700000000160014bc6004631250401c3454d0713f539315ea1021450247304402202d050d3cabd4c8374e5cb1a5f010a6688e39323512f415a5679bb398e8f942500220386ebebf18ac9fddf8b380382b4dfd4935ed5064796e9fd6d0b6e7396faeef3d012102a1e834c7b6db596a113ebee7261170cc4d4e80db4a0e51bf862627e7b7150e9400000000");
 		private static final byte[] SAMPLE_BTC_TX_UNSIGNED = Dump.hexToBin("02000000046574ea263c98ff94f5a68007bc64d6a85f6a50e7257b5ad4c057f04ffd1ac2fd0000000000ffffffff3ba3ee374f7cf835827a8269c4da3241570e32fefa95ba2f5d795fdf2353dab10000000000ffffffffa3c51018e49c6a68af5d487c6327bdea259aeeb4d8a89535e62284308ec4f0e30100000000ffffffff6d81e45f2bd62ce183de7050f7c3434a1669a656a11457936dc9b65a4eb24d7f0100000000ffffffff01c0878b3b0000000017a914e929bf3837c2a0f42e9c57754cf27ca6f64c79488700000000");
+
+		/* Sample BIP 32 path used for the address and given transactions */
+		private static final String SAMPLE_TRX_ADDRESS = "44'/195'/0'/0/0";
+		private static final byte[] SAMPLE_TRX_TX = Dump.hexToBin("0a027d52220889fd90c45b71f24740e0bcb0f2be2c5a67080112630a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412320a1541c8599111f29c1e1e061265b4af93ea1f274ad78a1215414f560eb4182ca53757f905609e226e96e8e1a80c18c0843d70d0f5acf2be2c");
+		// TRC 10 transfer 1002000
+		private static final long SAMPLE_TRX_INFO_ID = 1002000;
+		private static final byte[] SAMPLE_TRX_INFO_TX = Dump.hexToBin("0A026CEE22089DC6BE4603D66A7640C884D8E6872E5A75080212710A32747970652E676F6F676C65617069732E636F6D2F70726F746F636F6C2E5472616E736665724173736574436F6E7472616374123B0A073130303230303012154111775181DA40A4A189504435B2B43D2612CF557E1A1541D43543FA38EABB1D10A302DD4C249662F0DA3DE920C0843D70B7C8D4E6872E");
 
 		private static final String PERSO_PROD = "perso_11";
 		private static final int API_VERSION = 17;
@@ -524,6 +533,126 @@ public class Tasks {
 			}
 		}
 
+		/* Get an Tron address */
+
+		class TrxGetAddress extends AsyncTask<Void, Void, WalletAddress> {
+
+			private LedgerDevice device;
+			private WeakReference<MainActivity> weakActivity;
+
+			public TrxGetAddress(LedgerDevice device, MainActivity activity) {
+				this.device = device;
+				this.weakActivity = new WeakReference<>(activity);
+			}
+
+			protected WalletAddress doInBackground(Void... params) {
+				WalletAddress walletAddress = null;
+				Trx application = new Trx(device);
+				try {
+					LedgerApplication.ApplicationDetails applicationDetails = application.getApplicationDetails();
+					walletAddress = application.getWalletAddress(SAMPLE_TRX_ADDRESS, true);
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				return walletAddress;
+			}
+
+			protected void onPostExecute(WalletAddress walletAddress) {
+				MainActivity activity = weakActivity.get();
+				if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+					return;
+				}				
+				if (walletAddress != null) {
+					activity.toast(walletAddress.getAddress());
+					activity.debug(walletAddress.toString());
+				}
+				else {
+					activity.toast("Error getting wallet address");
+				}
+			}
+		}
+
+		/* Sign a simple Tron transaction */
+
+		class TrxSign extends AsyncTask<Void, Void, ECDSADeviceSignature> {
+
+			private LedgerDevice device;
+			private WeakReference<MainActivity> weakActivity;
+
+			public TrxSign(LedgerDevice device, MainActivity activity) {
+				this.device = device;
+				this.weakActivity = new WeakReference<>(activity);
+			}
+
+			protected ECDSADeviceSignature doInBackground(Void... params) {
+				ECDSADeviceSignature deviceSignature = null;
+				Trx application = new Trx(device);
+				try {
+					LedgerApplication.ApplicationDetails applicationDetails = application.getApplicationDetails();
+					deviceSignature = application.signTransaction(SAMPLE_TRX_ADDRESS, SAMPLE_TRX_TX);
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				return deviceSignature;
+			}
+
+			protected void onPostExecute(ECDSADeviceSignature deviceSignature) {
+				MainActivity activity = weakActivity.get();
+				if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+					return;
+				}				
+				if (deviceSignature != null) {
+					activity.toast("TX signed");
+					activity.debug(deviceSignature.toString());
+				}
+				else {
+					activity.toast("Error signing transaction");
+				}
+			}
+		}
+
+		/* Sign a Tron transaction with additional information */
+
+		class TrxSignInfo extends AsyncTask<Void, Void, ECDSADeviceSignature> {
+
+			private LedgerDevice device;
+			private WeakReference<MainActivity> weakActivity;
+
+			public TrxSignInfo(LedgerDevice device, MainActivity activity) {
+				this.device = device;
+				this.weakActivity = new WeakReference<>(activity);
+			}
+
+			protected ECDSADeviceSignature doInBackground(Void... params) {
+				ECDSADeviceSignature deviceSignature = null;
+				Trx application = new Trx(device);
+				try {
+					LedgerApplication.ApplicationDetails applicationDetails = application.getApplicationDetails();
+					byte[] tokenInfos = application.getTrc10TokenInformation(SAMPLE_TRX_INFO_ID);
+					deviceSignature = application.signInfoTransaction(SAMPLE_TRX_ADDRESS, SAMPLE_TRX_INFO_TX, new Vector<byte[]>(Arrays.asList(tokenInfos)));
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				return deviceSignature;
+			}
+
+			protected void onPostExecute(ECDSADeviceSignature deviceSignature) {
+				MainActivity activity = weakActivity.get();
+				if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+					return;
+				}				
+				if (deviceSignature != null) {
+					activity.toast("TX signed");
+					activity.debug(deviceSignature.toString());
+				}
+				else {
+					activity.toast("Error signing transaction");
+				}
+			}
+		}
 
 		/* Get available applications from the Manager API */
 
@@ -829,6 +958,18 @@ public class Tasks {
 
 		public BtcSignTX btcSignTX(LedgerDevice device, MainActivity activity) {
 			return new BtcSignTX(device, activity);
+		}
+
+		public TrxGetAddress trxGetAddress(LedgerDevice device, MainActivity activity) {
+			return new TrxGetAddress(device, activity);
+		}
+
+		public TrxSign trxSign(LedgerDevice device, MainActivity activity) {
+			return new TrxSign(device, activity);
+		}
+
+		public TrxSignInfo trxSignInfo(LedgerDevice device, MainActivity activity) {
+			return new TrxSignInfo(device, activity);
 		}
 
 		public GetManagerApplications getManagerApplications(long provider, long targetId, String versionName, ManagerService managerService, MainActivity activity) {

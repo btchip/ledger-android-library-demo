@@ -51,6 +51,7 @@ import com.ledger.lib.transport.LedgerDevice;
 import com.ledger.lib.transport.LedgerDeviceUSB;
 import com.ledger.lib.transport.LedgerDeviceBLE;
 import com.ledger.lib.apps.eth.Erc20Cache;
+import com.ledger.lib.apps.trx.TrxCache;
 import com.ledger.lib.transport.GattUtils;
 
 import com.ledger.management.lib.ManagerService; 
@@ -86,6 +87,9 @@ public class MainActivity extends Activity
 		private Button ethSignTX;
 		private Button ethSignERC20TX;
 		private Button ethSignLongTX;		
+		private Button trxGetAddressButton;
+		private Button trxSignTX;
+		private Button trxSignInfoTX;
 		private Button btcGetAddress;
 		private Button btcSignTX;
 		private Button mgtGetApps;
@@ -355,6 +359,9 @@ public class MainActivity extends Activity
         ethSignTX = (Button)findViewById(R.id.ethSignTX);
         ethSignERC20TX = (Button)findViewById(R.id.ethSignERC20TX);
         ethSignLongTX = (Button)findViewById(R.id.ethSignLongTX);
+        trxGetAddressButton = (Button)findViewById(R.id.trxGetAddressButton);
+        trxSignTX = (Button)findViewById(R.id.trxSignTX);
+        trxSignInfoTX = (Button)findViewById(R.id.trxSignInfoTX);        
         btcGetAddress = (Button)findViewById(R.id.btcGetAddress);
         btcSignTX = (Button)findViewById(R.id.btcSignTX);
         mgtGetApps = (Button)findViewById(R.id.mgtGetApps);
@@ -536,6 +543,39 @@ public class MainActivity extends Activity
         			Tasks.get().ethSignLong(ledgerDevice, MainActivity.this).execute();
         		}
         });                                
+        trxGetAddressButton.setOnClickListener(new OnClickListener() {
+        		@Override
+        		public void onClick(View view) {        			
+        			if (ledgerDevice == null) {
+        				toast("No device connected");
+        				return;
+        			}
+        			Tasks.get().trxGetAddress(ledgerDevice, MainActivity.this).execute();
+        		}
+        });                
+        trxSignTX.setOnClickListener(new OnClickListener() {
+        		@Override
+        		public void onClick(View view) {        			
+        			if (ledgerDevice == null) {
+        				toast("No device connected");
+        				return;
+        			}
+        			Tasks.get().trxSign(ledgerDevice, MainActivity.this).execute();
+        		}
+        });                        
+        trxSignInfoTX.setOnClickListener(new OnClickListener() {
+        		@Override
+        		public void onClick(View view) {        			
+        			if (ledgerDevice == null) {
+        				toast("No device connected");
+        				return;
+        			}
+        			debug("Loading TRX cache");
+        			TrxCache.loadCacheInternal(getApplicationContext());
+        			debug("TRX cache loaded");        			
+        			Tasks.get().trxSignInfo(ledgerDevice, MainActivity.this).execute();
+        		}
+        });                                        
         btcGetAddress.setOnClickListener(new OnClickListener() {
         		@Override
         		public void onClick(View view) {        			
