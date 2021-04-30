@@ -66,9 +66,14 @@ public class Tasks {
 		private static final byte[] SAMPLE_BTC_TX_P2WPKH = Dump.hexToBin("02000000000101278d0297350e201061ac9ba6b8d77046d0d9de0a84a35cd77545ba856d6f3c9700000000171600142866b1d53df139ab23311caf57a21b034f1965f4feffffff0230612e12010000001600149f451f15ef55ab5ab7350d3178e4fd185706a5610084d71700000000160014bc6004631250401c3454d0713f539315ea1021450247304402202d050d3cabd4c8374e5cb1a5f010a6688e39323512f415a5679bb398e8f942500220386ebebf18ac9fddf8b380382b4dfd4935ed5064796e9fd6d0b6e7396faeef3d012102a1e834c7b6db596a113ebee7261170cc4d4e80db4a0e51bf862627e7b7150e9400000000");
 		private static final byte[] SAMPLE_BTC_TX_UNSIGNED = Dump.hexToBin("02000000046574ea263c98ff94f5a68007bc64d6a85f6a50e7257b5ad4c057f04ffd1ac2fd0000000000ffffffff3ba3ee374f7cf835827a8269c4da3241570e32fefa95ba2f5d795fdf2353dab10000000000ffffffffa3c51018e49c6a68af5d487c6327bdea259aeeb4d8a89535e62284308ec4f0e30100000000ffffffff6d81e45f2bd62ce183de7050f7c3434a1669a656a11457936dc9b65a4eb24d7f0100000000ffffffff01c0878b3b0000000017a914e929bf3837c2a0f42e9c57754cf27ca6f64c79488700000000");
 
+		private static final byte[] SAMPLE_BTC_SEGWIT_TX_UTXO = Dump.hexToBin("010000000001014b3cde591656ed7f598d4768f1df7a40adebacf6b2e931ac5a52d78193450e6b0000000017160014390cc4368e65ece06c5b59d6b6734d6720044a3bffffffff022c0100000000000017a914ff714b6f65ba3d27da7526123e7d8ccd02fc277387819498000000000017a914810cc95ba16fb08b048acea72198443e335332698702483045022100c644af0728311e0b7aa0f20746d0c9a3873fe00edaa84ae44580cc053803b454022077936ff125438e46fccf97fdf44156932bc0fa2572d5cdf6ac33570b70f7ec4e0121025cad2e4beaa2fce41a5c3527bdfec39671044c44580189655affa7b4f609024700000000");
+		private static final byte[] SAMPLE_BTC_SEGWIT_TX_UNSIGNED = Dump.hexToBin("0100000000010107bb10ddf3c5df38001c73dd32bb33cdc085c688c12f84d99619255eb9c386da0100000000ffffffff022c0100000000000017a914ff714b6f65ba3d27da7526123e7d8ccd02fc277387829298000000000017a914810cc95ba16fb08b048acea72198443e335332698702483145022100f268c7fb40fbad639924630722914cde3f1417144e8255d0e5189f336663191302203e2d5b33ec2639bdabe6c07d9fa98d648833382188381749a8dc09dceb2c56430121025cad2e4beaa2fce41a5c3527bdfec39671044c44580189655affa7b4f609024700000000");
+
 		/* Sample BIP 32 path used for the address and given transactions */
 		private static final String SAMPLE_TRX_ADDRESS = "44'/195'/0'/0/0";
-		private static final byte[] SAMPLE_TRX_TX = Dump.hexToBin("0a027d52220889fd90c45b71f24740e0bcb0f2be2c5a67080112630a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412320a1541c8599111f29c1e1e061265b4af93ea1f274ad78a1215414f560eb4182ca53757f905609e226e96e8e1a80c18c0843d70d0f5acf2be2c");
+		//private static final byte[] SAMPLE_TRX_TX = Dump.hexToBin("0a027d52220889fd90c45b71f24740e0bcb0f2be2c5a67080112630a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412320a1541c8599111f29c1e1e061265b4af93ea1f274ad78a1215414f560eb4182ca53757f905609e226e96e8e1a80c18c0843d70d0f5acf2be2c");
+		//private static final byte[] SAMPLE_TRX_TX = Dump.hexToBin("0a025e3c2208575d8a759fb260fd40d28696a28a2e5a65080112610a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412300a1541ea586be1003befb7c5fd82c14b8776f70440f8f31215410c0c4c71d7b2549357fedd54b4d4883dc650af44180170d2abd8fa892e");
+		private static final byte[] SAMPLE_TRX_TX = Dump.hexToBin("0a029ca22208f973d82e31fe5d5a40abafe8968b2e5aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a1541250a7e7123037c1630b66cb41da2b352fc402f9d121541bcc41907a5c237d1881ec845e7a37a23281053062244a9059cbb0000000000000000000000000c0c4c71d7b2549357fedd54b4d4883dc650af44000000000000000000000000000000000000000000000000000000000000000170abd4aaef8a2e9001c0843d");
 		// TRC 10 transfer 1002000
 		private static final long SAMPLE_TRX_INFO_ID = 1002000;
 		private static final byte[] SAMPLE_TRX_INFO_TX = Dump.hexToBin("0A026CEE22089DC6BE4603D66A7640C884D8E6872E5A75080212710A32747970652E676F6F676C65617069732E636F6D2F70726F746F636F6C2E5472616E736665724173736574436F6E7472616374123B0A073130303230303012154111775181DA40A4A189504435B2B43D2612CF557E1A1541D43543FA38EABB1D10A302DD4C249662F0DA3DE920C0843D70B7C8D4E6872E");
@@ -533,6 +538,55 @@ public class Tasks {
 			}
 		}
 
+		/* Sign a Segwit BTC transaction */
+
+		class BtcSignSegwitTX extends AsyncTask<Void, Void, byte[]> {
+
+			private LedgerDevice device;
+			private WeakReference<MainActivity> weakActivity;
+
+			public BtcSignSegwitTX(LedgerDevice device, MainActivity activity) {
+				this.device = device;
+				this.weakActivity = new WeakReference<>(activity);
+			}
+
+			protected byte[] doInBackground(Void... params) {
+				byte[] signedTX = null;
+				Btc application = new Btc(device);
+				try {
+					BtcTransaction sample_btc_tx_utxo = new BtcTransaction(SAMPLE_BTC_SEGWIT_TX_UTXO);
+					BtcTransaction sample_btc_tx_unsigned = new BtcTransaction(SAMPLE_BTC_SEGWIT_TX_UNSIGNED);
+					Vector<BtcTransaction> parentTransactions = new Vector<BtcTransaction>();
+					parentTransactions.add(sample_btc_tx_utxo);
+					Vector<String> associatedKeysets = new Vector<String>();
+					associatedKeysets.add("49'/1'/0'/0/0");
+					LedgerApplication.ApplicationDetails applicationDetails = application.getApplicationDetails();
+					BtcTransaction signedTransaction = application.signP2PKHTransaction(sample_btc_tx_unsigned, parentTransactions, associatedKeysets, null);
+					if (signedTransaction != null) {
+						signedTX = signedTransaction.serialize(false, false);
+					}
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				return signedTX;
+			}
+
+			protected void onPostExecute(byte[] signedTX) {
+				MainActivity activity = weakActivity.get();
+				if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+					return;
+				}				
+				if (signedTX != null) {
+					activity.toast("TX signed");
+					activity.debug(Dump.dump(signedTX));
+				}
+				else {
+					activity.toast("Error signing transaction");
+				}
+			}
+		}
+
 		/* Get an Tron address */
 
 		class TrxGetAddress extends AsyncTask<Void, Void, WalletAddress> {
@@ -958,6 +1012,10 @@ public class Tasks {
 
 		public BtcSignTX btcSignTX(LedgerDevice device, MainActivity activity) {
 			return new BtcSignTX(device, activity);
+		}
+
+		public BtcSignSegwitTX btcSignSegwitTX(LedgerDevice device, MainActivity activity) {
+			return new BtcSignSegwitTX(device, activity);
 		}
 
 		public TrxGetAddress trxGetAddress(LedgerDevice device, MainActivity activity) {

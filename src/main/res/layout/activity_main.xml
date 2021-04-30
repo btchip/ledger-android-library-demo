@@ -91,7 +91,17 @@
         android:id="@+id/btcSignTX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BTC Sign TX"/>
+        android:text="BTC Sign Mixed TX"/>
+  </LinearLayout>        
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/btcSignSegwitTX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BTC Sign Segwit TX"/>        
   </LinearLayout>
   <LinearLayout
     android:orientation="horizontal"

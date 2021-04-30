@@ -92,6 +92,7 @@ public class MainActivity extends Activity
 		private Button trxSignInfoTX;
 		private Button btcGetAddress;
 		private Button btcSignTX;
+		private Button btcSignSegwitTX;
 		private Button mgtGetApps;
 		private Button mgtGetFirmware;
 		private Button mgtGenuineCheck;
@@ -364,6 +365,7 @@ public class MainActivity extends Activity
         trxSignInfoTX = (Button)findViewById(R.id.trxSignInfoTX);        
         btcGetAddress = (Button)findViewById(R.id.btcGetAddress);
         btcSignTX = (Button)findViewById(R.id.btcSignTX);
+        btcSignSegwitTX = (Button)findViewById(R.id.btcSignSegwitTX);
         mgtGetApps = (Button)findViewById(R.id.mgtGetApps);
         mgtGetFirmware = (Button)findViewById(R.id.mgtGetFirmware);
         mgtGenuineCheck = (Button)findViewById(R.id.mgtGenuineCheck);
@@ -596,6 +598,16 @@ public class MainActivity extends Activity
         			Tasks.get().btcSignTX(ledgerDevice, MainActivity.this).execute();
         		}
         });                                
+        btcSignSegwitTX.setOnClickListener(new OnClickListener() {
+        		@Override
+        		public void onClick(View view) {        			
+        			if (ledgerDevice == null) {
+        				toast("No device connected");
+        				return;
+        			}
+        			Tasks.get().btcSignSegwitTX(ledgerDevice, MainActivity.this).execute();
+        		}
+        });                                        
 
         mgtGetApps.setOnClickListener(new OnClickListener() {
         		@Override
